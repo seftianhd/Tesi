@@ -4,7 +4,7 @@ class Parameters
 {
     const FILE_NAME = 'products.txt';
     const COLUMNS = ['item', 'price'];
-    const POPULATION_SIZE = 30;
+    const POPULATION_SIZE = 10;
     const BUDGET = 280000;
     const STOPPING_VALUE = 10000;
     const CROSOVER_RATE = 0.8;

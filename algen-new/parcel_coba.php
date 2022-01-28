@@ -1,14 +1,15 @@
 <?php
 $start = microtime(true);
+set_time_limit(500);
 
 class Parameters
 {
     const FILE_NAME = 'parcel_coba.txt';
     const COLUMNS = ['item', 'price'];
-    const BUDGET = 250000;
-    const STOPPING_VALUE = 100;
+    const BUDGET = 11000;
+    const STOPPING_VALUE = 1000;
     const CROSOVER_RATE = 0.8;
-    const MAX_ITER = 250;
+    const MAX_ITER = 6;
 }
 
 class Catalogue
@@ -63,6 +64,7 @@ class Fitness
 {
     function selectingItem($individu)
     {
+        $ret=[];
         foreach ($individu as $individuKey => $binaryGen) {
             if ($binaryGen === 1) {
                 $ret[] = [
@@ -182,6 +184,7 @@ class Crossover
 
     function generateCrossover()
     {
+        $ret = [];
         $parents = $this->randomizingParents();
         foreach (array_keys($parents) as $key) {
             foreach (array_keys($parents) as $subkey) {
@@ -232,6 +235,7 @@ class Crossover
         foreach ($this->generateCrossover() as $listOfCrossover) {
             $parent1 = $this->populations[$listOfCrossover[0]];
             $parent2 = $this->populations[$listOfCrossover[1]];
+
             $offspring1 = $this->offspring($parent1, $parent2, $cutPointIndex, 1);
             $offspring2 = $this->offspring($parent1, $parent2, $cutPointIndex, 2);
             $offsprings[] = $offspring1;
@@ -446,14 +450,16 @@ function saveToFile($maxIter, $fitnessValue, $numOfItems)
     fclose($fp);
 }
 
-for ($popSize = 5; $popSize <= 100; $popSize+=5){
-    for ($i = 0; $i < 30; $i++){
+for ($popSize = 6; $popSize <= 36; $popSize+=6){
+    for ($i = 0; $i < 5; $i++){
+        echo "<br>";
         echo 'PopSize: ' . $popSize;
-        $algenKnapsack = (new Algen($popSize, 250))->algen();
+        $algenKnapsack = (new Algen(5, 6))->algen();
         echo ' Fitness: '.$algenKnapsack['fitnessValue'] . ' Items: ' . $algenKnapsack['numOfItems'];
         echo "\n";
-        saveToFile($popSize, $algenKnapsack['fitnessValue'], $algenKnapsack['numOfItems']);
+        saveToFile(6, $algenKnapsack['fitnessValue'], $algenKnapsack['numOfItems']);
     }
+    echo"<br>";
 }
 
 // $popSize = 60;
